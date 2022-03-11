@@ -15,8 +15,9 @@ fi
 
 #installation
 if [[ "$(grep -iR deadsnakes/ppa /etc/apt)" != "" ]]; then
-  echo "Checking PPA and installing python 3.10"
+  echo "Checking PPA status"
   sleep 1
+  echo "PPA found so installing python 3.10"
   sudo apt-get install python3.10 -y
   echo "Confirming just installed version -> ->"
   python3.10 -V
