@@ -1,14 +1,29 @@
-#! /usr/bin/bash
+#! /usr/bin/env bash
 
-if [[ "$(grep -iR deadsnakes/ppa /etc/apt)" = "" ]]; then
-  echo "Installing python 3.10"
-  sleep 1
+#ppa
+read -r -p "Do you want to add the ppa for proceeding the installation? [y/N] " response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]] || [[ "$response" = "" ]]; then
   sudo apt install software-properties-common -y
   sudo add-apt-repository ppa:deadsnakes/ppa -y
   sudo apt update
-  sudo apt-get install python3.10 -y
-  python3.10 -V
+
 else
-  echo "Already Installed"
+
+  echo "PPA adding aborted"
+
 fi
 
+#installation
+if [[ "$(grep -iR deadsnakes/ppa /etc/apt)" != "" ]]; then
+  echo "Checking PPA and installing python 3.10"
+  sleep 1
+  sudo apt-get install python3.10 -y
+  echo "Confirming just installed version -> ->"
+  python3.10 -V
+
+elif [[ "$(grep -iR deadsnakes/ppa /etc/apt)" = "" ]]; then
+  echo "PPA not found so installation will not proceed"
+
+else
+  echo "Installation aborted"
+fi
